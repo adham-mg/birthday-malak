@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عيد ميلاد سعيد يا ملك 🎂💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #fce4ec;
+      --lavender: #f3e5f5;
+      --cream: #fff8e1;
+      --gold: #ffca28;
+      --text: #4a4a4a;
+      --shadow: rgba(0,0,0,0.1);
+      --deep-red: #c62828;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(135deg, var(--pink), var(--lavender), var(--cream));
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    /* ========== شاشة الدخلة ========== */
+    .intro-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    .intro-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
+    .envelope-container {
+      position: relative;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .envelope {
+      width: 280px;
+      height: 200px;
+      background: linear-gradient(145deg, #8b0000, #c62828);
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.5s ease;
+    }
+    .envelope:hover { transform: translateY(-5px); }
+    
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 140px solid transparent;
+      border-right: 140px solid transparent;
+      border-top: 100px solid #b71c1c;
+      border-radius: 10px 10px 0 0;
+      z-index: 2;
+    }
+    
+    .envelope::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 140px solid #a52a2a;
+      border-right: 140px solid #a52a2a;
+      border-bottom: 100px solid transparent;
+      border-radius: 0 0 10px 10px;
+      z-index: 1;
+    }
+    
+    .envelope-seal {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px; height: 60px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      z-index: 3;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 5px 15px rgba(255,202,40,0.4); }
+      to { box-shadow: 0 5px 25px rgba(255,202,40,0.9); }
+    }
+    
+    .rose {
+      position: absolute;
+      top: -80px;
+      right: -30px;
+      font-size: 4rem;
+      animation: float-rose 3s ease-in-out infinite;
+      z-index: 4;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    }
+    @keyframes float-rose {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    
+    .rose-text {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Amiri', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeInText 1s ease forwards 0.5s;
+    }
+    @keyframes fadeInText {
+      to { opacity: 1; }
+    }
+    
+    .click-hint {
+      margin-top: 40px;
+      color: rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    /* ========== المحتوى الرئيسي ========== */
+    .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .heart { position: absolute; animation: float 6s infinite ease-in-out; opacity: 0.6; }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); }
+      50% { transform: translateY(50vh) rotate(180deg) scale(1); }
+      100% { transform: translateY(-10vh) rotate(360deg) scale(0.5); }
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    header { margin-bottom: 40px; animation: fadeIn 1.5s ease-out; }
+    .name {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #8e24aa;
+      text-shadow: 2px 2px 4px var(--shadow);
+      margin-bottom: 10px;
+    }
+    .highlight { color: #d81b60; position: relative; display: inline-block; }
+    .highlight::after {
+      content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 3px;
+      background: var(--gold); border-radius: 2px;
+    }
+    .subtitle { font-size: 1.2rem; color: #6a1b9a; font-style: italic; }
+    .music-section { margin: 30px 0; }
+    .music-btn {
+      background: linear-gradient(45deg, #ffca28, #ffb300);
+      border: none; padding: 12px 28px; border-radius: 50px; cursor: pointer;
+      font-size: 1.1rem; font-family: inherit; color: #4e342e; font-weight: bold;
+      box-shadow: 0 5px 15px rgba(255,202,40,0.4); transition: all 0.3s;
+    }
+    .music-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 20px rgba(255,202,40,0.6); }
+    .message-box {
+      background: rgba(255,255,255,0.85); padding: 30px; border-radius: 20px;
+      box-shadow: 0 10px 30px var(--shadow); margin: 40px 0; min-height: 180px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .message-box h2 { color: #8e24aa; margin-bottom: 15px; font-size: 1.6rem; }
+    .typed-text {
+      font-size: 1.2rem; line-height: 1.8; color: #4a148c; text-align: right;
+      white-space: pre-wrap; min-height: 100px;
+    }
+    .gallery-section { margin: 50px 0; }
+    .gallery-section h2 { color: #8e24aa; margin-bottom: 25px; font-size: 1.8rem; }
+    .gallery {
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px; 
+      margin-top: 20px;
+      width: 100%;
+    }
+    .photo-card {
+      background: white; 
+      padding: 12px; 
+      border-radius: 15px;
+      box-shadow: 0 5px 15px var(--shadow); 
+      transition: transform 0.3s;
+      width: 100%;
+      overflow: hidden;
+    }
+    .photo-card:hover { transform: translateY(-8px) rotate(2deg); }
+    .photo-card img,
+    .photo-card video {
+      width: 100%; 
+      max-width: 100%;
+      height: 250px; 
+      object-fit: cover; 
+      border-radius: 12px;
+      cursor: pointer; 
+      transition: all 0.3s;
+      display: block;
+    }
+    .photo-card img:hover,
+    .photo-card video:hover { 
+      filter: brightness(1.1) saturate(1.2); 
+    }
+    .photo-card p { 
+      margin-top: 12px; 
+      font-size: 0.95rem; 
+      color: #6a1b9a; 
+      font-weight: 500; 
+    }
+    footer {
+      margin-top: 50px; padding: 20px; font-size: 0.9rem; color: #8e24aa;
+      border-top: 2px dashed #e1bee7;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    @media (max-width: 768px) {
+      .name { font-size: 2rem; }
+      .gallery { grid-template-columns: 1fr; gap: 20px; }
+      .message-box { padding: 20px; }
+      .photo-card img, .photo-card video { height: 220px; }
+      .envelope { width: 220px; height: 160px; }
+      .envelope::before { border-left: 110px solid transparent; border-right: 110px solid transparent; border-top: 80px solid #b71c1c; }
+      .envelope::after { border-left: 110px solid #a52a2a; border-right: 110px solid #a52a2a; border-bottom: 80px solid transparent; }
+      .rose { font-size: 3rem; top: -60px; right: -20px; }
+      .rose-text { font-size: 1.1rem; top: -30px; }
+    }
+    @media (max-width: 480px) {
+      .name { font-size: 1.6rem; }
+      .container { padding: 20px 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== شاشة الدخلة ========== -->
+  <div class="intro-overlay" id="intro">
+    <div class="envelope-container" id="envelope-btn">
+      <div class="rose">🌹</div>
+      <div class="rose-text">احلى وردة لاحلى ملك 💕</div>
+      <div class="envelope">
+        <div class="envelope-seal">💌</div>
+      </div>
+    </div>
+    <p class="click-hint">✨ افتحي الظرف بسرعة✨</p>
+  </div>
+
+  <!-- ========== القلوب الخلفية ========== -->
+  <div class="hearts" id="hearts-container"></div>
+  
+  <!-- ========== المحتوى الرئيسي ========== -->
+  <div class="container" id="main-content">
+    <header>
+      <h1 class="name">🎂 عيد ميلاد سعيد يا <span class="highlight">ملك</span> 🎂</h1>
+      <p class="subtitle">كل سنة وإنتِ الأخف دم، والأقرب لقلبي، والأجمل في الدنيا 💫</p>
+    </header>
+
+    <section class="music-section">
+      <button id="music-btn" class="music-btn">🔇 كتم الصوت</button>
+      <audio id="bg-music" loop>
+        <source src="song.mp3?v=3" type="audio/mpeg">
+      </audio>
+    </section>
+
+    <section class="message-section">
+      <div class="message-box">
+        <h2>💌 رسالة من القلب</h2>
+        <p id="typed-text" class="typed-text"></p>
+      </div>
+    </section>
+
+    <section class="gallery-section">
+      <h2>🖼️ ذكرياتنا الجميلة</h2>
+      <div class="gallery">
+        <div class="photo-card">
+          <img src="photo_1_2026-06-05_03-58-20.jpg" alt="ذكرى 1">
+          <p>أول ضحكة ليك السنة دي 😄</p>
+        </div>
+        <div class="photo-card">
+          <img src="photo_2_2026-06-05_03-58-20.jpg" alt="ذكرى 2">
+          <p>احلى جيم دومينو✨</p>
+        </div>
+        <div class="photo-card">
+          <img src="photo_3_2026-06-05_03-58-20.jpg" alt="ذكرى 3">
+          <p>كان يوم لطيف رغم ان مي سوحتنا</p>
+        </div>
+        <div class="photo-card">
+          <video controls>
+            <source src="doc_2026-06-05_03-58-35.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+          <p>اليوم ده كان كمية ضحك وهزار وعبث♥️😂</p>
+        </div>
+        <div class="photo-card">
+          <img src="Gemini_Generated_Image_jhgs9ejhgs9ejhgs.png" alt="ذكرى 5">
+          <p>دي بقا لأم ليلي ♥️😂</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>صُنع بكل حب وخفة دم عشانك 💖 | عيد ميلاد سعيد يا ملك</p>
+    </footer>
+  </div>
+
+  <script>
+    // ========== فتح الظرف والدخول للموقع ==========
+    const intro = document.getElementById('intro');
+    const mainContent = document.getElementById('main-content');
+    const envelopeBtn = document.getElementById('envelope-btn');
+    const bgMusic = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
+    
+    envelopeBtn.addEventListener('click', () => {
+      // إخفاء الدخلة
+      intro.classList.add('hidden');
+      
+      // إظهار المحتوى الرئيسي
+      setTimeout(() => {
+        mainContent.classList.add('visible');
+      }, 300);
+      
+      // تشغيل الموسيقى أوتوماتيك
+      setTimeout(() => {
+        bgMusic.play().catch(() => {
+          // لو المتصفح منع التشغيل التلقائي
+          musicBtn.textContent = '▶️ تشغيل الموسيقى';
+        });
+      }, 800);
+      
+      // بدء تأثير الكتابة
+      typeWriter();
+    });
+
+    // 🎵 تشغيل/إيقاف الموسيقى يدوياً
+    let isPlaying = true;
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = '▶️ تشغيل الموسيقى';
+      } else {
+        bgMusic.play();
+        musicBtn.textContent = '🔇 كتم الصوت';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // 💌 تأثير الكتابة التلقائية للرسالة
+    const message = `عيد ميلاد سعيد يا أجمل ملك في الدنيا 🎂✨ احلى 19 سنة
+كل سنة وإنتِ طيبة، يا رب السنة دي تكون أحلى وأجمل سنة في حياتك.
+بتمنى لكِ كل اللي نفسك فيه، وتبقى دايماً مبتسمة وسعيدة 
+إوعى تنسي إنك مميزة، وخفيفة دم، وقمرة منوراني كل يوم 🌙💫`;
+    
+    const typedText = document.getElementById('typed-text');
+    let i = 0;
+    function typeWriter() {
+      if (i < message.length) {
+        const char = message.charAt(i);
+        typedText.innerHTML += char === '\n' ? '<br>' : char;
+        i++;
+        setTimeout(typeWriter, 45);
+      }
+    }
+
+    //  إنشاء القلوب الطائرة في الخلفية
+    function createHearts() {
+      const container = document.getElementById('hearts-container');
+      const emojis = ['❤️', '💖', '💕', '✨', '🌸'];
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 20 + 14) + 'px';
+        heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
+        heart.style.animationDelay = (Math.random() * 4) + 's';
+        container.appendChild(heart);
+      }
+    }
+
+    // 🎉 مفاجأة عند الضغط في أي مكان (قصاصات ورق)
+    document.addEventListener('click', (e) => {
+      // منع التأثير على شاشة الدخلة
+      if (intro.classList.contains('hidden')) {
+        for (let i = 0; i < 8; i++) {
+          const confetti = document.createElement('div');
+          confetti.textContent = ['🎉', '💖', '✨', '🌸'][Math.floor(Math.random() * 4)];
+          confetti.style.position = 'fixed';
+          confetti.style.left = e.clientX + 'px';
+          confetti.style.top = e.clientY + 'px';
+          confetti.style.fontSize = '20px';
+          confetti.style.pointerEvents = 'none';
+          confetti.style.zIndex = '999';
+          confetti.style.transition = 'all 1s ease-out';
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => {
+            confetti.style.transform = `translate(${Math.random()*100-50}px, ${Math.random()*100-50}px) rotate(${Math.random()*360}deg)`;
+            confetti.style.opacity = '0';
+          }, 10);
+          
+          setTimeout(() => confetti.remove(), 1000);
+        }
+      }
+    });
+
+    // 🚀 تشغيل عند تحميل الصفحة
+    window.addEventListener('load', () => {
+      createHearts();
+      // ملاحظة: الكتابة تبدأ بعد فتح الظرف
+    });
+  </script>
+</body>
+</html>
